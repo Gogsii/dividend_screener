@@ -1,11 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux'; //keeps track of the store aka the global state, allows us to access the state from anywhere inside the app
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+
+import reducers from './reducers'
+
 import App from './App';
 
+//to set redux we first have to create store
+const store = createStore( reducers, compose( applyMiddleware(thunk) ));
+
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <Provider store={ store }>
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  </Provider>,
   document.getElementById('root')
 );
 
