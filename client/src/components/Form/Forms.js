@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
+//this is also where we are dealing with the update logic
+
+import React, {useState, useEffect} from 'react';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
 import FileBase from 'react-file-base64';
 import useStyles from './styles';
-import { useDispatch } from 'react-redux';
-import { createPost } from '../../actions/posts';
+import { useDispatch, useSelector } from 'react-redux';
+import { createPost, updatePost } from '../../actions/posts';
 
-const Form = () => {
+const Form = ({ currentId, setCurrentId }) => {
     const [postData, setPostData] = useState({
         creator: '',
         title: '',
@@ -13,25 +15,41 @@ const Form = () => {
         tags: '',
         selectedFile: ''
     });
+    const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null);    //we don't want to fecth data for all the posts, only for the post being updated
+    const classes = useStyles();    //setting classes to equal material ui's styling
+    const dispatch = useDispatch(); //setting up dispatch from redux to be able to dispacth actions
 
-    //setting classes to equal material ui's styling
-    const classes = useStyles();
-    //setting up dispatch from redux to be able to dispacth actions
-    const dispatch = useDispatch();
-    //Functions for form submission and clearing of form
-    const handleSubmit = (e) => {
-        e.preventDefault(); //prevent refreshing of browser
-        dispatch(createPost(postData));
+    useEffect(() => {               //the second parameter asks when should the callback be ran, when what changes?
+        if(post) {
+            setPostData(post);
+        }
+    }, [post])         
+
+    const handleSubmit = (e) => {   //Functions for form submission and clearing of form
+        e.preventDefault();         //prevent refreshing of browser
+        if(currentId) {
+            dispatch(updatePost(currentId, postData));
+        } else {
+            dispatch(createPost(postData));
+        }
+        clear(); //clears the form whether the user submits new stock or edits and existing
     };
     const clear = () => {
-
+        setCurrentId(null);
+        setPostData({
+            creator: '',
+            title: '',
+            message: '',
+            tags: '',
+            selectedFile: ''
+        })
     };
 
     //what the form looks like on the frontend
     return (
         <Paper className={classes.paper}>
             <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
-                <Typography variant='h6'>Submitting a Stock</Typography>
+                <Typography variant='h6'>{currentId ? 'Editing' : 'Creating'} a Stock</Typography>
                     <TextField 
                         name='creator' 
                         variant='outlined'

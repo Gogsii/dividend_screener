@@ -2,7 +2,6 @@ import express from 'express';
 // import bodyParser from 'body-parser'; //this is optional, express comes with it out of the box now. 
 import mongoose from 'mongoose';
 import cors from 'cors';
-
 import postRoutes from './routes/posts.js';
 
 const app = express();
@@ -15,7 +14,7 @@ app.use('/posts', postRoutes); //sets the permalink base to domain.com/posts/pos
 
 //gogsi pw: KvYrKBALh7fcmV2 dbName: DividendStocks
 const CONNECTION_URL = 'mongodb+srv://gogsi:KvYrKBALh7fcmV2@dividendstocks.pjriy.mongodb.net/dividendstocks?retryWrites=true&w=majority';
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 mongoose.connect(CONNECTION_URL, {useNewUrlParser: true, useUnifiedTopology: true })
     .then( () => app.listen( PORT, () => console.log(`Server running on port: ${PORT}`) ) )

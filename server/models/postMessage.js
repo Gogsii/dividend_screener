@@ -18,7 +18,7 @@ const postSchema = mongoose.Schema({
     }
 });
 
-//the above is a Schema, but it needs to get turned into a model
+//the above is a Schema, but it needs to get turned into a model, so we create a Model named PostMessage
 const PostMessage = mongoose.model('PostMessage', postSchema);
 
 //exorting a mongoose model, so that you can later on run CRUD commands on it

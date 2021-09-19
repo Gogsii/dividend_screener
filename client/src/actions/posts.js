@@ -23,3 +23,12 @@ export const createPost = (post) => async (dispatch) => {
         console.log(error);
     }
 }
+
+export const updatePost = (id, post) => async (dispatch) => {
+    try {
+        const { data } = await api.updatePost(id, post); //this is returning the updated post as a response, we then destructure the response and get the data
+        dispatch({ type: 'UPDATE', payload: data });
+    } catch (error) {
+        console.log(error); //consol logging just the error instead of error.message will give you more info
+    }
+}
