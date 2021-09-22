@@ -16,7 +16,7 @@ const Posts = ({ setCurrentId }) => {
     //because we're mapping withing the 'real' posts, we can send individual value of post to each post component
     return (
         !posts.length ? <CircularProgress /> : (
-            <Grid className={ classes.container } container alginItems="stretch" spacing={3}>
+            <Grid className={ classes.container } container alignItems="stretch" spacing={3}>
                 { posts.map((post) => (
                     <Grid key={ post.id} item xs={12} sm={6}>
                         <Post post={ post } setCurrentId={ setCurrentId } /> {/*sending in post and setCurrentID as props via props drilling*/}

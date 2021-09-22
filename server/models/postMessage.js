@@ -1,4 +1,4 @@
-//here we're creating the default properties our posts will contain
+//here we're creating the default properties our posts will contain, the skeleton for the post
 
 import mongoose from 'mongoose';
 
