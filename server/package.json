@@ -2,6 +2,9 @@
   "name": "server",
   "version": "1.0.0",
   "description": "",
+  "engines": {
+    "node": "14.17.6"
+    },
   "main": "index.js",
   "type": "module",
   "proxy": "http://localhost:3001",
@@ -14,6 +17,7 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mongoose": "^6.0.5",
     "nodemon": "^2.0.12"
