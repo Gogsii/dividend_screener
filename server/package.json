@@ -7,7 +7,6 @@
     },
   "main": "index.js",
   "type": "module",
-  "proxy": "http://localhost:3001",
   "scripts": {
     "start": "nodemon index.js"
   },
