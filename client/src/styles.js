@@ -13,8 +13,9 @@ export default makeStyles((theme) => ({
     color: 'rgba(0,183,255, 1)',
   },
   image: {
-    margin: '0',
-    width: '50%',
+    margin: '5px',
+    paddingLeft: '30px',
+    width: '40%',
   },
 
   [theme.breakpoints.down('sm')]: {
