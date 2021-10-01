@@ -37,6 +37,7 @@ const Form = ({ currentId, setCurrentId }) => {
         clear(); //clears the form whether the user submits new stock or edits and existing
     };
 
+    //shows the below msg if no user is logged in
     if(!user?.result?.name) {
         return(
             <Paper className={classes.paper}>

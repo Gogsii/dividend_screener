@@ -27,16 +27,15 @@ const Navbar = () => {
     };
 
     //using useEffect to help navigate automatically instead of manually
-    useEffect(() => {
+    useEffect((logout, user) => {
         const token = user?.token;
-        // JWT... later on
-
-        // if (token) {
-        //     const decodedToken = decode(token);
-      
-        //     if (decodedToken.exp * 1000 < new Date().getTime()) logout();
-        //   }
-
+        
+        if (token) {
+            const decodedToken = decode(token);
+        
+            if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+          }
+        
         setUser(JSON.parse(localStorage.getItem('profile')));
     }, [location]); //location here refers to url changing from /auth to just '/'
 

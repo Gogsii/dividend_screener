@@ -2,13 +2,13 @@ import axios from 'axios';
 
 const API = axios.create({ baseURL: 'http://localhost:3001' });
 
-//adding something specific to each one of our requests, sending the token to the backedn middleware for authentication
-//with this our backend can get access to the specific header and decode the data
+//adding something specific to each one of our requests, sending the token to the backend middleware for authentication
+//with this our backend can get access to the specific header and decode the data, we're sending the token to the backend to verify that we are actually logged in
 API.interceptors.request.use((req) => {
-    if(localStorage.getItem('profile')) {
+    if(localStorage.getItem('profile')) { //this is where the token is stored, in the profile
         req.headers.authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
     }
-    return req;
+    return req; //must return the initial request so that we are able to return all the subsequent requests below
 });
 
 //this is the url pointing to our frontend route, obv its localhost now
