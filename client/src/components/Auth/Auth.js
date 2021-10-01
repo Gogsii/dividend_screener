@@ -4,32 +4,41 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { GoogleLogin } from 'react-google-login';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import { signin, signup } from '../../actions/auth';
 
 import useStyles from './styles';
 import Input from './Input';
 import Icon from './icon';
 
+const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: ''};
 
 const Auth = () => {
     const classes = useStyles();
-    const dispatch = useDispatch();
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const [showPassword, setShowPassword] = useState(false);
-    const [isSignup, setIsSignup] = useState(false); //setting default case to be not signed up
+    const [isSignup, setIsSignup] = useState(false); //using array destructuring to set default state to be not signed up, takes 2 params, state and callback to run in re-render
+    const [formData, setFormData] = useState(initialState); //setting the state for email/password fields
 
     const handleShowPassword = () => setShowPassword( (prevShowPassword) => !prevShowPassword) //this toggles the show pw on/off
 
-    const handleSubmit = () => {
-
+    const handleSubmit = (e) => {
+        e.preventDefault(); //always add this to form submits, to prevent default behavior of browsers to refresh upon form submit
+        
+        if(isSignup) {
+            dispatch(signup( formData, history )); //we pass the form data to have in the database, and the history object so that we can navigate once something happens
+        } else {
+            dispatch(signin( formData, history )); //we pass the form data to have in the database, and the history object so that we can navigate once something happens
+        }
     };
 
-    const handleChange = () => {
-
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const switchMode = () => {
-        (setIsSignup( (prevIsSignup) => !prevIsSignup )); //switches the state on/off like a switch
+        (setIsSignup( (prevIsSignup) => !prevIsSignup )); //switches the state on/off from false to true like a switch
         handleShowPassword(false); //resets the show password when switching between signup/signin
     };  
 

@@ -4,10 +4,6 @@
 import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
 import * as api from '../api'; //import everything from the actions as api
 
-//Action Creators + Redux Thunk for asynchronous data
-//const action = { type: 'FETCH_ALL', payload: [] } //payload is the data, i.e. where all the posts are stored
-
-
 //GET POST ACTION
 export const getPosts = () => async (dispatch) => {
     try {

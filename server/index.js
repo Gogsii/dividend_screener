@@ -5,6 +5,8 @@ import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import postRoutes from './routes/posts.js';
+import userRoutes from './routes/users.js';
+
 
 const app = express();
 dotenv.config();
@@ -14,6 +16,8 @@ app.use(express.urlencoded( { limit: "100mb", extended: true } ) ); //could tech
 app.use(cors());
 
 app.use('/posts', postRoutes); //sets the permalink base to domain.com/posts/post
+app.use('/user', userRoutes); //sets the permalink base to domain.com/posts/post
+
 
 app.get('/', (req, res) => {
     res.send('Hello to Dividend Stocks API');

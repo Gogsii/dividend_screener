@@ -13,7 +13,7 @@ const Navbar = () => {
     const history = useHistory();
     const location = useLocation();
 
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile'))); //here we attempt to fetch the user from local storage
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile'))); //here we attempt to fetch the user from local storage and set it as the current state
     
     const logout = () => {
         dispatch({ type: 'LOGOUT' });
@@ -23,12 +23,12 @@ const Navbar = () => {
         setUser(null);
     };
 
-    //using use effect to help navigate automatically instead of manually
+    //using useEffect to help navigate automatically instead of manually
     useEffect(() => {
         const token = user?.token;
         // JWT... later on
         setUser(JSON.parse(localStorage.getItem('profile')));
-    }, [location]);
+    }, [location]); //location here refers to url changing from /auth to just '/'
 
     return(
     <AppBar className={ classes.appBar } position='static' color='inherit'>

@@ -12,7 +12,9 @@ const Home = () => {
     const classes = useStyles();
     const dispatch = useDispatch(); //hook used to dipatch actions
   
-    //a way to actually dispatch the action, initially its the componentDidMount, but then it turns into componentWillUpdate 
+    //a way to actually dispatch the action, similar to componentDidMount, componentDidUpdate and componentWillUpdate 
+    //we're telling react to run this “effect” function after flushing changes to the DOM.
+    //effects are ran after every render, including the first
     useEffect( () => {
       dispatch( getPosts() ); //dispatching the action created and exported in '/actions.posts'
     }, [currentId, dispatch] );
