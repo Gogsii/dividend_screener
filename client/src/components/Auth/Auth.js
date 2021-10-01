@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { GoogleLogin } from 'react-google-login';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+
+import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+
 import { signin, signup } from '../../actions/auth';
 import { AUTH } from '../../constants/actionTypes';
 
@@ -14,14 +16,14 @@ import Icon from './icon';
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: ''};
 
 const Auth = () => {
-    const classes = useStyles();
-    const history = useHistory();
-    const dispatch = useDispatch();
-
     const [showPassword, setShowPassword] = useState(false);
     const [isSignup, setIsSignup] = useState(false); //using array destructuring to set default state to be not signed up, takes 2 params, state and callback to run in re-render
     const [formData, setFormData] = useState(initialState); //setting the state for email/password fields
 
+    const classes = useStyles();
+    const history = useHistory();
+    const dispatch = useDispatch();
+    
     const handleShowPassword = () => setShowPassword( (prevShowPassword) => !prevShowPassword) //this toggles the show pw on/off
 
     const handleSubmit = (e) => {
@@ -49,7 +51,7 @@ const Auth = () => {
         const token = res?.tokenId;
         
         try {
-            dispatch({type: 'AUTH', data: { result, token } }); //dispatching action type and payload
+            dispatch({type: AUTH, data: { result, token } }); //dispatching action type and payload
             history.push('/'); //navigate user back to home after logging in
         } catch (error) {
             console.log(error);

@@ -20,10 +20,10 @@ export const getPosts = async (req, res) => {
 export const createPost = async (req, res) => {
     const post = req.body; //const body = req.body;
 
-    const newPost = new PostMessage(post); //creates a new post from the mongoose model
+    const newPostMessage = new PostMessage({ ...post, creator: req.userId, createdAt: new Date().toISOString() }); //creates a new post from the mongoose model
     try {
-        await newPost.save(); //saves the newly created post
-        res.status(201).json(newPost); //sends the new post into the system
+        await newPostMessage.save(); //saves the newly created post
+        res.status(201).json(newPostMessage); //sends the new post into the system
     } catch (error) {
         res.status(409).json({ message: error.message });
     }

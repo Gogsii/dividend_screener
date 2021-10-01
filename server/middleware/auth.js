@@ -1,15 +1,17 @@
 import jwt from "jsonwebtoken";
 
+const secret = 'test';
+
 //next param just means 'do something and then move on to the next thing'
 const auth = async ( req, res, next ) => {
     try {
-        const token = req.headers.authorization.split(' ')[1];
+        const token = req.headers.authorization.split(" ")[1];
         const isCustomAuth = token.length < 500;
 
         let decodedData;
 
         if(token && isCustomAuth) {
-            decodedData = jwt.verify(token, 'test'); //gives us the data from each specific token, such as username and id
+            decodedData = jwt.verify(token, secret); //gives us the data from each specific token, such as username and id
             req.userId = decodedData?.id; //storing user id into req.userId if working with our own token
         } else {
             decodedData = jwt.decode(token); //in this case we don't need the secret param

@@ -1,6 +1,15 @@
 import axios from 'axios';
 
-const API = axios.create({ baseUrl: 'http://localhost:3001' });
+const API = axios.create({ baseURL: 'http://localhost:3001' });
+
+//adding something specific to each one of our requests, sending the token to the backedn middleware for authentication
+//with this our backend can get access to the specific header and decode the data
+API.interceptors.request.use((req) => {
+    if(localStorage.getItem('profile')) {
+        req.headers.authorization = `Bearer ${JSON.parse(localStorage.getItem('profile')).token}`;
+    }
+    return req;
+});
 
 //this is the url pointing to our frontend route, obv its localhost now
 //as its currently setup localhost 3000 just returns all the posts we have in the database

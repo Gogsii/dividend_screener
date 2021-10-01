@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken'; //safe way to store users in browsers for some p
 
 import User from '../models/user.js'
 
+const secret = 'test';
+
 //logic for signing user in
 export const signin = async (req, res) => {
     const { email, password } = req.body; //whenever we have a POST request, we get all the data of the request body, here we destructure the email and pw
@@ -14,11 +16,12 @@ export const signin = async (req, res) => {
         }
 
         const isPasswordCorrect = await bcrypt.compare(password, existingUser.password); //check and see if typed password matches saved user pw
+        
         if(!isPasswordCorrect) {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        const token = jwt.sign( { email: existingUser.email, id: existingUser._id }, 'test',  { expiresIn: '1hr' }); //2nd argument is a secret string, I'll have to create it and store in .env 
+        const token = jwt.sign( { email: existingUser.email, id: existingUser._id }, secret,  { expiresIn: '1hr' }); //2nd argument is a secret string, I'll have to create it and store in .env 
         
         res.status(200).json({ result: existingUser, token });
     } catch (error) {
@@ -42,10 +45,8 @@ export const signup = async (req, res) => {
         }
 
         const hashedPassword = await bcrypt.hash(password, 12) //2nd parameter, aka salt, is the level of difficulty to use in the hashing
-        
-        const result = await User.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` });
-
-        const token = jwt.sign({ email: result.email, id: result._id }, 'test', { expiresIn: '1hr' });
+        const result = await User.create({ email, password: hashedPassword, name: `${firstName} ${lastName}` }); 
+        const token = jwt.sign({ email: result.email, id: result._id }, secret, { expiresIn: '1hr' });
 
         res.status(200).json({ result, token });
     } catch (error) {

@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
 import { AppBar, Avatar, Button, Toolbar, Typography } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
+import decode from 'jwt-decode';
+
 //import dividendstocks from '../../images/dividendstocks.jpg';
-import authReducer from '../../reducers/auth';
+//import authReducer from '../../reducers/auth';
+
 
 import useStyles from './styles';
 
@@ -27,6 +30,13 @@ const Navbar = () => {
     useEffect(() => {
         const token = user?.token;
         // JWT... later on
+
+        // if (token) {
+        //     const decodedToken = decode(token);
+      
+        //     if (decodedToken.exp * 1000 < new Date().getTime()) logout();
+        //   }
+
         setUser(JSON.parse(localStorage.getItem('profile')));
     }, [location]); //location here refers to url changing from /auth to just '/'
 
