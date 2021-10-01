@@ -57,11 +57,24 @@ export const deletePost = async (req, res) => {
 export const likePost = async (req, res) => {
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+    if(!req.userId) {
+        return res.json({ message: 'Unauthenticated' });
+    } 
+
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`); //check if we have the post that the user wants to like
     
-    const post = await PostMessage.findById(id); //this is how we find the post we're looking to like
+    const post = await PostMessage.findById(id); //this is how we find the post we're seeking to like
+
+    const index = post.likes.findIndex((id) => id === String(req.userId)); //check to see if user id is already in the likes pile, if id found, it should be a dislike not a like
+
+    if(index === -1) { //meaning the findIndex did not find the ID in the likes pile, it will be a like
+        post.likes.push(req.userId);
+    } else { //it will be a dislike or like removal
+        post.likes = post.likes.filter( (id) => id !== String(req.userId) );
+    }
+
     //this is the updated post result. with update rqsts we have to specify a 3rd parameter
-    const updatedPost = await PostMessage.findByIdAndUpdate(id, { likeCount: post.likeCount + 1 }, { new: true });
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
     
     res.json(updatedPost);
 }

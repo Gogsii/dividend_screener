@@ -5,6 +5,7 @@ import { GoogleLogin } from 'react-google-login';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { signin, signup } from '../../actions/auth';
+import { AUTH } from '../../constants/actionTypes';
 
 import useStyles from './styles';
 import Input from './Input';
@@ -39,7 +40,7 @@ const Auth = () => {
 
     const switchMode = () => {
         (setIsSignup( (prevIsSignup) => !prevIsSignup )); //switches the state on/off from false to true like a switch
-        handleShowPassword(false); //resets the show password when switching between signup/signin
+        setShowPassword(false); //resets the show password when switching between signup/signin
     };  
 
     const googleSuccess = async (res) => {
