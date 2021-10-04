@@ -1,9 +1,9 @@
-import express from 'express';
-import dotenv from 'dotenv';
+import express from 'express'; //provide server-side logic for web and mobile applications, funnels incoming requests through a chain of middlewares
+import dotenv from 'dotenv'; //zero-dependency module that loads environment variables from a .env file into process.env
 
 // import bodyParser from 'body-parser'; //this is optional, express comes with it out of the box now. 
-import mongoose from 'mongoose';
-import cors from 'cors';
+import mongoose from 'mongoose'; //MongoDB object modeling tool designed to work in an asynchronous environment.
+import cors from 'cors'; //package for providing a Connect/Express middleware that can be used to enable CORS with various options.
 import postRoutes from './routes/posts.js';
 import userRouter from './routes/user.js';
 
