@@ -7,7 +7,6 @@ import cors from 'cors'; //package for providing a Connect/Express middleware th
 import postRoutes from './routes/posts.js';
 import userRouter from './routes/user.js';
 
-
 const app = express();
 dotenv.config();
 
@@ -18,19 +17,18 @@ app.use(cors());
 app.use('/posts', postRoutes); //sets the permalink base to domain.com/posts/post
 app.use('/user', userRouter); 
 
-
 app.get('/', (req, res) => {
     res.send('Hello to Dividend Stocks API');
 });
 
 //const PORT = process.env.PORT || 3001;
 
-app.listen(process.env.PORT || 3001, function(){
+app.listen(process.env.PORT || 3001, function() {
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
   });
 
 mongoose.connect(process.env.CONNECTION_URL, {useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => app.listen(PORT, () => console.log(`Server running on port: http://localhost:${PORT}`)))
+    .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
     .catch((error) => console.log( error.message));
  
 //mongoose.set('useFindAndModify', false); //this is old

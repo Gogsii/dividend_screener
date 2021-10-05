@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API = axios.create({ baseURL: 'https://dividend-screener.herokuapp.com/' });
+const API = axios.create({ baseURL: 'https://dividend-screener.herokuapp.com' });
 
 //adding something specific to each one of our requests, sending the token to the backend middleware for authentication
 //with this our backend can get access to the specific header and decode the data, we're sending the token to the backend to verify that we are actually logged in

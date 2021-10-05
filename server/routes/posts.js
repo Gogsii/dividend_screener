@@ -8,10 +8,10 @@ import auth from '../middleware/auth.js';
 const router = express.Router();
 
 router.get('/', getPosts);
-router.p('/', auth, createPost);
-router.patch('/ost:id', auth, updatePost); //dynamic because we need to know the ID of existing post before editing it
+router.post('/', auth, createPost);
+router.patch('/post:id', auth, updatePost); //dynamic because we need to know the ID of existing post before editing it
 router.delete('/:id', auth, deletePost);
-router.patch('/:id/likePost', auth, likePost); //to implement abiilty to like post only once we need to implement accounts (full auth system registration login, accounts etc)
+router.patch('/:id/likePosts', auth, likePost); //to implement abiilty to like post only once we need to implement accounts (full auth system registration login, accounts etc)
 
 
 export default router;
