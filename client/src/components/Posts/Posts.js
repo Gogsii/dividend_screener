@@ -13,7 +13,7 @@ const Posts = ({ setCurrentId }) => {
 
     console.log(posts);
 
-    //because we're mapping withing the 'real' posts, we can send individual value of post to each post component
+    //because we're mapping within the 'real' posts, we can send individual value of post to each post component
     return (
         !posts.length ? <CircularProgress /> : (
             <Grid className={ classes.container } container alignItems="stretch" spacing={3}>

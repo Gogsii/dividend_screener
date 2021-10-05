@@ -21,7 +21,7 @@ export const signin = async (req, res) => {
             return res.status(400).json({ message: 'Invalid credentials' });
         }
 
-        const token = jwt.sign( { email: existingUser.email, id: existingUser._id }, secret,  { expiresIn: '1hr' }); //2nd argument is a secret string, I'll have to create it and store in .env 
+        const token = jwt.sign( { email: existingUser.email, id: existingUser._id }, secret, { expiresIn: '1hr' }); //2nd argument is a secret string, I'll have to create it and store in .env 
         
         res.status(200).json({ result: existingUser, token });
     } catch (error) {
