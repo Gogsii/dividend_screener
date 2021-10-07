@@ -1,21 +1,44 @@
 // inside of here are all the handlers for the Routes. 
 // once you create the routes in here you can go to the client side and initatie them in the api call 
 // and then create an action for them in the action creator as well as an accompanying reducer
+import express from 'express';
 
 import mongoose from 'mongoose';
 import PostMessage from '../models/postMessage.js'
 
+const router = express.Router();
+
 //logic for loading all the posts
 export const getPosts = async (req, res) => {
+    const { page } = req.query; //comes from the query because we're passing it via the front end query
     try {
-        const postMessages = await PostMessage.find();
-        console.log(req.headers);
-        res.status(200).json(postMessages);
+        const LIMIT = 4;
+        const startIndex = (Number(page) - 1) * LIMIT; //get the starting index of every page
+        const total = await PostMessage.countDocuments({}); //get the number of documents/posts in existence
+        const posts = await PostMessage.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex); //gives the newest post first and limits the number of posts per page. then skip all previous pages and start at selected page
+        res.status(200).json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT)});//passing all this data back to the frontend
+
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
 }
 
+//logic for searching the posts (Query (?query) vs. Params (/:param))
+export const getPostsBySearch = async (req, res) => {
+    const { searchQuery, tags } = req.query;
+
+    try {
+        const title = new RegExp(searchQuery, 'i'); //take what the user typed in an ignore case, convert it to a regexp and set it as value for title variable
+        
+        // $or: -> means either/or, either find it in the title or in the tags
+        // $in means is there a tag in this specific array of tags that matches our query
+        const posts = await PostMessage.find({ $or: [ { title }, { tags: { $in: tags.split(',') } } ]});
+
+        res.json({ data: posts });
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
 //logic for adding different posts
 export const createPost = async (req, res) => {
     const post = req.body; //const body = req.body;
@@ -78,3 +101,5 @@ export const likePost = async (req, res) => {
     
     res.json(updatedPost);
 }
+
+export default router;

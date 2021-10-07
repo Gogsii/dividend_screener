@@ -18,7 +18,9 @@ API.interceptors.request.use((req) => {
 
 //const url = 'https://dividend-screener.herokuapp.com/posts';
 
-export const fetchPosts = () => API.get('/posts'); //very important to remember to export
+//very important to remember to export these
+export const fetchPosts = (page) => API.get(`/posts?page=${page}`); //passing the data to the backend just so we know which page we're currently on
+export const fetchPostsBySearch = (searchQuery) => API.get(`/posts/search?searchQuery=${searchQuery.search || 'none'}&tags=${searchQuery.tags}`); //with this, we are sending all of the search info to the search endpoint
 export const createPost = (newPost) => API.post('/posts', newPost); 
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`); //to implement abiilty to like post only once we need to implement accounts (full auth system registration login, accounts etc)
 export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost); //we now have the defined url, but also passing in the id to update

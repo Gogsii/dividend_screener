@@ -1,14 +1,34 @@
-//these are the actions dispatched in App.js with
-//  useEffect( () => { dispatch( getPosts() ); }, [dispatch] );
+// these are the actions dispatched in App.js with
+// useEffect( () => { dispatch() }, [dispatch] );
+// by themselves they don't do much, you have to go into the reducers and add the logic for them
 
-import { FETCH_ALL, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import { FETCH_ALL, FETCH_BY_SEARCH, START_LOADING, END_LOADING, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
 import * as api from '../api'; //import everything from the actions as api
 
 //GET POST ACTION
-export const getPosts = () => async (dispatch) => {
+export const getPosts = (page) => async (dispatch) => {
     try {
-        const { data } = await api.fetchPosts();
+        dispatch({ type: 'START_LOADING' });
+        const { data } = await api.fetchPosts(page);
+        console.log(data);
+        
         dispatch({ type: FETCH_ALL, payload: data });
+        dispatch({ type: 'END_LOADING' });
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+
+//GET POST BY SEARCHING
+export const getPostsBySearch = (searchQuery) => async (dispatch) => {
+    try {
+        dispatch({ type: 'START_LOADING' });
+
+        //have to destructure the data twice
+        const { data: { data } } = await api.fetchPostsBySearch(searchQuery); // first time because we're making an axios request, and the second because we put it in a new object that has the data property
+
+        dispatch({ type: FETCH_BY_SEARCH, payload: data });
+        dispatch({ type: 'END_LOADING' });
     } catch (error) {
         console.log(error.message);
     }
@@ -17,8 +37,11 @@ export const getPosts = () => async (dispatch) => {
 //CREATE POST ACTION
 export const createPost = (post) => async (dispatch) => {
     try {
+        dispatch({ type: 'START_LOADING' });
         const { data } = await api.createPost(post);
+        
         dispatch({ type: CREATE, payload: data });
+        dispatch({ type: 'END_LOADING' });
     } catch (error) {
         console.log(error);
     }

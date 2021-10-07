@@ -1,36 +1,49 @@
 //this is also where we are dealing with the update logic
-
 import React, {useState, useEffect} from 'react';
 import { TextField, Button, Typography, Paper } from '@material-ui/core';
-import FileBase from 'react-file-base64';
-import useStyles from './styles';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { createPost, updatePost } from '../../actions/posts';
+
+import FileBase from 'react-file-base64';
+//import ChipInput from 'material-ui-chip-input';
+
+import useStyles from './styles';
 
 const Form = ({ currentId, setCurrentId }) => {
     const [postData, setPostData] = useState({
-        //creator: '',
         title: '',
         message: '',
         tags: '',
         selectedFile: ''
     });
-    const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null);    //we don't want to fecth data for all the posts, only for the post being updated
+    const post = useSelector( (state) => (currentId ? state.posts.posts.find((p) => p._id === currentId) : null) );    //we don't want to fecth data for all the posts, only for the post being updated
     const classes = useStyles();    //setting classes to equal material ui's styling
     const dispatch = useDispatch(); //setting up dispatch from redux to be able to dispacth actions
+    const history = useHistory();
     const user = JSON.parse(localStorage.getItem('profile'));
 
-    useEffect(() => {               //the second parameter asks when should the callback be ran, when what changes?
+    const clear = () => {
+        setCurrentId(0);
+        setPostData({
+            title: '',
+            message: '',
+            tags: '',
+            selectedFile: ''
+        })
+    };
+
+    useEffect(() => { //the second parameter asks when should the callback be ran, when what changes?
         if(post) {
             setPostData(post);
         }
-    }, [post])         
+    }, [dispatch, post]);
 
     const handleSubmit = async (e) => {   //Functions for form submission and clearing of form
         e.preventDefault();         //prevent refreshing of browser
         
         if(currentId) {
-            dispatch(updatePost({ ...postData, name: user?.result?.name }));
+            dispatch(updatePost({ ...postData, name: user?.result?.name }, history));
         } else {
             dispatch(createPost({ ...postData, name: user?.result?.name }));
         }
@@ -48,20 +61,11 @@ const Form = ({ currentId, setCurrentId }) => {
         )
     };
 
-    const clear = () => {
-        setCurrentId(null);
-        setPostData({
-            //creator: '',
-            title: '',
-            message: '',
-            tags: '',
-            selectedFile: ''
-        })
-    };
+
 
     //what the form looks like on the frontend
     return (
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={6}>
             <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant='h6'>{currentId ? 'Editing' : 'Creating'} a Stock</Typography>
                     {/*<TextField name='creator' variant='outlined' label='Creator'  fullWidth value={postData.creator}  onChange={ (e) => setPostData({ ...postData, creator: e.target.value }) }/> */}
