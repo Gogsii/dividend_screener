@@ -8,7 +8,7 @@ import decode from 'jwt-decode';
 //import dividends_text from '../../images/dividends_text.jpg';
 
 //import authReducer from '../../reducers/auth';
-
+import * as actionType from '../../constants/actionTypes';
 import useStyles from './styles';
 
 const Navbar = () => {
@@ -20,9 +20,9 @@ const Navbar = () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile'))); //here we attempt to fetch the user from local storage and set it as the current state
     
     const logout = () => {
-        dispatch({ type: 'LOGOUT' });
+        dispatch({ type: actionType.LOGOUT });
 
-        history.push('/');
+        history.push('/auth');
 
         setUser(null);
     };

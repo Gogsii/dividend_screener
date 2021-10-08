@@ -2,7 +2,7 @@
 
 import express from 'express';
 
-import { getPosts, getPostsBySearch, createPost, updatePost, deletePost, likePost } from '../controllers/posts.js';
+import { getPost, getPosts, getPostsBySearch, createPost, updatePost, deletePost, likePost } from '../controllers/posts.js';
 import auth from '../middleware/auth.js';
 
 const router = express.Router();
@@ -10,10 +10,11 @@ const router = express.Router();
 // all of these routes beging with /posts (since we are in the posts.js route)
 router.get('/search', getPostsBySearch);
 router.get('/', getPosts);
+router.get('/:id', getPost);
 router.post('/', auth, createPost);
 router.patch('/post:id', auth, updatePost); //dynamic because we need to know the ID of existing post before editing it
 router.delete('/:id', auth, deletePost);
-router.patch('/:id/likePosts', auth, likePost); //to implement abiilty to like post only once we need to implement accounts (full auth system registration login, accounts etc)
+router.patch('/:id/likePost', auth, likePost); //to implement abiilty to like post only once we need to implement accounts (full auth system registration login, accounts etc)
 
 
 export default router;

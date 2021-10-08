@@ -16,17 +16,17 @@ function useQuery() {
 }
 
 const Home = () => {
-    const [currentId, setCurrentId] = useState(null); //sets the state of current ID to be null if no ID is selected
-    const [search, setSearch] = useState(''); //setting an empty string as the default value for the search bar
-    const [tags, setTags] = useState([]); //setting it to an empty array to account for multiple tags
-
-    const dispatch = useDispatch(); //hook used to dipatch actions
-    const query = useQuery();
-    const history = useHistory();
     const classes = useStyles();
-
+    const query = useQuery();
     const page = query.get('page') || 1;
     const searchQuery = query.get('searchQuery');
+  
+    const [currentId, setCurrentId] = useState(0); //sets the state of current ID to be null if no ID is selected
+    const dispatch = useDispatch();  //hook used to dipatch actions
+  
+    const [search, setSearch] = useState(''); //setting an empty string as the default value for the search bar
+    const [tags, setTags] = useState([]);  //setting it to an empty array to account for multiple tags
+    const history = useHistory();
 
     //a way to actually dispatch the action, similar to componentDidMount, componentDidUpdate and componentWillUpdate 
     //we're telling react to run this “effect” function after flushing changes to the DOM.
@@ -37,7 +37,7 @@ const Home = () => {
 
     //function for searching stocks by ticker and name
     const searchPost = () => {
-        if(search.trim() || tags ) {
+        if (search.trim() || tags) {
             dispatch(getPostsBySearch({ search, tags: tags.join(',') }));
             history.push(`/posts/search?searchQuery=${search || 'none'}&tags=${tags.join(',')}`); //changes the permalink to the account for the query and client-side routing
         } else {
@@ -52,9 +52,9 @@ const Home = () => {
         }
     }
 
-    const handleAdd = (tag) => setTags([ ...tags, tag]);
+    const handleAddTag = (tag) => setTags([ ...tags, tag]);
 
-    const handleDelete = (tagToDelete) => setTags(tags.filter( (tag) => tag !== tagToDelete ));
+    const handleDeleteTag = (tagToDelete) => setTags(tags.filter( (tag) => tag !== tagToDelete ));
 
     return (
     <Grow in>
@@ -83,8 +83,8 @@ const Home = () => {
                     <ChipInput 
                         style={{margin: '15px 0'}}
                         value={tags}
-                        onAdd={handleAdd}
-                        onDelete={handleDelete}
+                        onAdd={handleAddTag}
+                        onDelete={handleDeleteTag}
                         label= 'Search stock tickers'
                         variant='outlined'
                     />

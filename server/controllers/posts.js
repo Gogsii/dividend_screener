@@ -8,6 +8,18 @@ import PostMessage from '../models/postMessage.js'
 
 const router = express.Router();
 
+//logic for loading a single post
+export const getPost = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const post = await PostMessage.findById(id);
+
+        res.status(200).json(post);
+    } catch (error) {
+        res.status(404).json({ message: error.message });
+    }
+}
+
 //logic for loading all the posts
 export const getPosts = async (req, res) => {
     const { page } = req.query; //comes from the query because we're passing it via the front end query
@@ -15,9 +27,9 @@ export const getPosts = async (req, res) => {
         const LIMIT = 4;
         const startIndex = (Number(page) - 1) * LIMIT; //get the starting index of every page
         const total = await PostMessage.countDocuments({}); //get the number of documents/posts in existence
+
         const posts = await PostMessage.find().sort({ _id: -1 }).limit(LIMIT).skip(startIndex); //gives the newest post first and limits the number of posts per page. then skip all previous pages and start at selected page
         res.status(200).json({ data: posts, currentPage: Number(page), numberOfPages: Math.ceil(total / LIMIT)});//passing all this data back to the frontend
-
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
@@ -32,7 +44,7 @@ export const getPostsBySearch = async (req, res) => {
         
         // $or: -> means either/or, either find it in the title or in the tags
         // $in means is there a tag in this specific array of tags that matches our query
-        const posts = await PostMessage.find({ $or: [ { title }, { tags: { $in: tags.split(',') } } ]});
+        const posts = await PostMessage.find({ $or: [ { title }, { tags: { $in: tags.split(',') } } ] });
 
         res.json({ data: posts });
     } catch (error) {
@@ -99,7 +111,7 @@ export const likePost = async (req, res) => {
     //this is the updated post result. with update rqsts we have to specify a 3rd parameter
     const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
     
-    res.json(updatedPost);
+    res.status(200).json(updatedPost);
 }
 
 export default router;

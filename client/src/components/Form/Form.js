@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { createPost, updatePost } from '../../actions/posts';
 
 import FileBase from 'react-file-base64';
-//import ChipInput from 'material-ui-chip-input';
+import ChipInput from 'material-ui-chip-input';
 
 import useStyles from './styles';
 
@@ -14,29 +14,23 @@ const Form = ({ currentId, setCurrentId }) => {
     const [postData, setPostData] = useState({
         title: '',
         message: '',
-        tags: '',
+        tags: [],
         selectedFile: ''
     });
-    const post = useSelector( (state) => (currentId ? state.posts.posts.find((p) => p._id === currentId) : null) );    //we don't want to fecth data for all the posts, only for the post being updated
-    const classes = useStyles();    //setting classes to equal material ui's styling
+    const post = useSelector((state) => (currentId ? state.posts.posts.find((message) => message._id === currentId) : null));    //we don't want to fecth data for all the posts, only for the post being updated
     const dispatch = useDispatch(); //setting up dispatch from redux to be able to dispacth actions
+    const classes = useStyles();    //setting classes to equal material ui's styling
     const history = useHistory();
     const user = JSON.parse(localStorage.getItem('profile'));
 
     const clear = () => {
         setCurrentId(0);
-        setPostData({
-            title: '',
-            message: '',
-            tags: '',
-            selectedFile: ''
-        })
-    };
+        setPostData({ title: '', message: '', tags: [], selectedFile: '' });
+      };
 
-    useEffect(() => { //the second parameter asks when should the callback be ran, when what changes?
-        if(post) {
-            setPostData(post);
-        }
+    useEffect(() => { //the second parameter [post] asks when should the callback be ran, when what changes?
+        if (!post?.title) clear();
+        if (post) setPostData(post);
     }, [dispatch, post]);
 
     const handleSubmit = async (e) => {   //Functions for form submission and clearing of form
@@ -53,16 +47,22 @@ const Form = ({ currentId, setCurrentId }) => {
     //shows the below msg if no user is logged in
     if(!user?.result?.name) {
         return(
-            <Paper className={classes.paper}>
+            <Paper className={classes.paper} elevation={6}>
                 <Typography variant='h6' align='center'>
                     Please sign in to build your own dividend screener.
                 </Typography>
             </Paper>
-        )
+        );
     };
 
-
-
+    const handleAddTag = (tag) => {
+        setPostData({ ...postData, tags: [...postData.tags, tag] });
+      };
+    
+      const handleDeleteTag = (tagToDelete) => {
+        setPostData({ ...postData, tags: postData.tags.filter((tag) => tag !== tagToDelete) });
+      };
+      
     //what the form looks like on the frontend
     return (
         <Paper className={classes.paper} elevation={6}>
@@ -85,14 +85,17 @@ const Form = ({ currentId, setCurrentId }) => {
                         value={postData.message}
                         onChange={ (e) => setPostData({ ...postData, message: e.target.value }) }
                     />
-                    <TextField 
-                        name='tags' 
-                        variant='outlined'
-                        label='Tags' 
+                    <div style={{ padding: '5px 0', width: '94%' }}>
+                    <ChipInput
+                        name="tags"
+                        variant="outlined"
+                        label="Tags"
                         fullWidth
                         value={postData.tags}
-                        onChange={ (e) => setPostData({ ...postData, tags: e.target.value.split(',') }) }
+                        onAdd={(tag) => handleAddTag(tag)}
+                        onDelete={(tag) => handleDeleteTag(tag)}
                     />
+                    </div>
                 <div className={classes.fileInput}>
                     <FileBase
                         type='file'

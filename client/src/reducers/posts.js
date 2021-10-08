@@ -1,11 +1,9 @@
 /*a reducer is a function that accepts the state and the action
 //based on the action type it does some logic
 //in reducers the state always must be initialized to something
-//our 'state' will always be post, because we are in the posts reducer
-//so can just put posts as the state
 */
 
-import { FETCH_ALL, FETCH_BY_SEARCH, START_LOADING, END_LOADING, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import { FETCH_POST, FETCH_ALL, FETCH_BY_SEARCH, START_LOADING, END_LOADING, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
 
 const posts = (state = { isLoading: true, posts: [] }, action) => {
     switch(action.type) {
@@ -20,6 +18,8 @@ const posts = (state = { isLoading: true, posts: [] }, action) => {
                 currentPage: action.payload.currentPage,
                 numberOfPages: action.payload.numberOfPages,
             };
+        case FETCH_POST:
+            return { ...state, post: action.payload };
         case FETCH_BY_SEARCH:
             return { ...state, posts: action.payload };
         case LIKE:
@@ -33,6 +33,6 @@ const posts = (state = { isLoading: true, posts: [] }, action) => {
         default:
             return state;
     }
-}
+};
 
 export default posts;
