@@ -28,7 +28,8 @@ const Form = ({ currentId, setCurrentId }) => {
         setPostData({ title: '', message: '', tags: [], selectedFile: '' });
       };
 
-    useEffect(() => { //the second parameter [post] asks when should the callback be ran, when what changes?
+    //the second parameter [post] asks when should the callback be ran, when what changes?
+    useEffect(() => { 
         if (!post?.title) clear();
         if (post) setPostData(post);
     }, [dispatch, post]);
@@ -36,12 +37,13 @@ const Form = ({ currentId, setCurrentId }) => {
     const handleSubmit = async (e) => {   //Functions for form submission and clearing of form
         e.preventDefault();         //prevent refreshing of browser
         
-        if(currentId) {
-            dispatch(updatePost({ ...postData, name: user?.result?.name }, history));
-        } else {
-            dispatch(createPost({ ...postData, name: user?.result?.name }));
-        }
-        clear(); //clears the form whether the user submits new stock or edits and existing
+        if (currentId === 0) {
+            dispatch(createPost({ ...postData, name: user?.result?.name }, history));
+            clear();
+          } else {
+            dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
+            clear(); //clears the form whether the user submits new stock or edits and existing
+          }
     };
 
     //shows the below msg if no user is logged in

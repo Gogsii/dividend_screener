@@ -21,10 +21,9 @@ const Navbar = () => {
     
     const logout = () => {
         dispatch({ type: actionType.LOGOUT });
-
-        history.push('/auth');
-
         setUser(null);
+
+        return history.push('/auth');
     };
 
     //using useEffect to help navigate automatically instead of manually

@@ -23,6 +23,7 @@ export const createPost = (newPost) => API.post('/posts', newPost);
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`); //to implement abiilty to like post only once we need to implement accounts (full auth system registration login, accounts etc)
 export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updatedPost); //we now have the defined url, but also passing in the id to update
 export const deletePost = (id) => API.delete(`/posts/${id}`); //we now have the defined url, but also passing in the id to update
+export const comment = (value, id) => API.post(`/posts/${id}/commentPost`, { value });
 
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);

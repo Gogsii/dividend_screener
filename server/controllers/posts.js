@@ -18,7 +18,7 @@ export const getPost = async (req, res) => {
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
-}
+};
 
 //logic for loading all the posts
 export const getPosts = async (req, res) => {
@@ -33,7 +33,7 @@ export const getPosts = async (req, res) => {
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
-}
+};
 
 //logic for searching the posts (Query (?query) vs. Params (/:param))
 export const getPostsBySearch = async (req, res) => {
@@ -50,7 +50,7 @@ export const getPostsBySearch = async (req, res) => {
     } catch (error) {
         res.status(404).json({ message: error.message });
     }
-}
+};
 //logic for adding different posts
 export const createPost = async (req, res) => {
     const post = req.body; //const body = req.body;
@@ -62,7 +62,7 @@ export const createPost = async (req, res) => {
     } catch (error) {
         res.status(409).json({ message: error.message });
     }
-}
+};
 
 //logic for updating single post
 export const updatePost = async (req, res) => {
@@ -72,9 +72,8 @@ export const updatePost = async (req, res) => {
     if(!mongoose.Types.ObjectId.isValid(_id)) return res.status(404).send('No post with that id.');
 
     const updatedPost = await PostMessage.findByIdAndUpdate(_id,  {...post, _id }, { new: true }); //find and update the post, then assign it to var updatedPost
-
     res.json(updatedPost); //sending over the updated post as response
-}
+};
 
 //logic for deleting a single post
 export const deletePost = async (req, res) => {
@@ -85,7 +84,7 @@ export const deletePost = async (req, res) => {
     await PostMessage.findByIdAndRemove(id);
 
     res.json({ message: 'Post deleted successfully!' }); //sending over the updated post as response
-}
+};
 
 //logic for liking a single post
 //to implement abiilty to like post only once we need to implement accounts (full auth system registration login, accounts etc)
@@ -112,6 +111,17 @@ export const likePost = async (req, res) => {
     const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
     
     res.status(200).json(updatedPost);
-}
+};
+
+export const commentPost = async (req, res) => {
+    const { id } = req.params;
+    const { value } = req.body;
+
+    const post = await PostMessage.findById(id);
+    post.comments.push(value);
+    const updatedPost = await PostMessage.findByIdAndUpdate(id, post, { new: true });
+
+    res.json(updatedPost);
+};
 
 export default router;

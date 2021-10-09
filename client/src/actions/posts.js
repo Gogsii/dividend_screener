@@ -2,7 +2,7 @@
 // useEffect( () => { dispatch() }, [dispatch] );
 // by themselves they don't do much, you have to go into the reducers and add the logic for them
 
-import { FETCH_POST, FETCH_ALL, FETCH_BY_SEARCH, START_LOADING, END_LOADING, CREATE, UPDATE, DELETE, LIKE } from '../constants/actionTypes';
+import { FETCH_POST, FETCH_ALL, FETCH_BY_SEARCH, START_LOADING, END_LOADING, CREATE, UPDATE, DELETE, LIKE, COMMENT } from '../constants/actionTypes';
 import * as api from '../api'; //import everything from the actions as api
 
 //GET SINGLE POST ACTION
@@ -91,3 +91,15 @@ export const likePost = (id) => async (dispatch) => {
         console.log(error.message); //console logging just the error instead of error.message will give you more info
     }
 };
+
+export const commentPost = (value, id) => async(dispatch) => {
+    try {
+        const { data } = await api.comment(value, id);
+
+        dispatch({ type: COMMENT, payload: data })
+
+        return data.comments;
+    } catch (error) {
+        console.log(error.message);
+    }
+}
