@@ -5,7 +5,10 @@
 import { FETCH_POST, FETCH_ALL, FETCH_BY_SEARCH, START_LOADING, END_LOADING, CREATE, UPDATE, DELETE, LIKE, COMMENT } from '../constants/actionTypes';
 import * as api from '../api'; //import everything from the actions as api
 
+/*--------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------*/
 //GET SINGLE POST ACTION
+
 export const getPost = (id) => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING });
@@ -17,7 +20,11 @@ export const getPost = (id) => async (dispatch) => {
     }
 };
 
+
+/*--------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------*/
 //GET ALL POSTS ACTION 
+
 export const getPosts = (page) => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING });
@@ -30,7 +37,10 @@ export const getPosts = (page) => async (dispatch) => {
     }
 };
 
+/*--------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------*/
 //GET POST BY SEARCHING
+
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING });
@@ -45,7 +55,10 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
     }
 };
 
+/*--------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------*/
 //CREATE POST ACTION
+
 export const createPost = (post, history) => async (dispatch) => {
     try {
         dispatch({ type: START_LOADING });
@@ -59,7 +72,10 @@ export const createPost = (post, history) => async (dispatch) => {
     }
 };
 
+/*--------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------*/
 //UPDATE POST ACTION
+
 export const updatePost = (id, post) => async (dispatch) => {
     try {
         const { data } = await api.updatePost(id, post); //this is returning the updated post as a response, we then destructure the response and get the data
@@ -69,7 +85,10 @@ export const updatePost = (id, post) => async (dispatch) => {
     }
 };
 
+/*--------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------*/
 //DELETE POST ACTION
+
 export const deletePost = (id) => async (dispatch) => {
     try {
         await api.deletePost(id); //no destructuring data since we're not interested in the returned data, we're just deleting the post when recieved
@@ -79,8 +98,11 @@ export const deletePost = (id) => async (dispatch) => {
     }
 };
 
+/*--------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------*/
 //LIKE POST ACTION
 //to implement abiilty to like post only once we need to implement accounts (full auth system registration login, accounts etc)
+
 export const likePost = (id) => async (dispatch) => {
     const user = JSON.parse(localStorage.getItem('profile'));
 
@@ -91,6 +113,10 @@ export const likePost = (id) => async (dispatch) => {
         console.log(error.message); //console logging just the error instead of error.message will give you more info
     }
 };
+
+/*--------------------------------------------------------------------------------------------------------*/
+/*--------------------------------------------------------------------------------------------------------*/
+//COMMENT ON POST ACTION
 
 export const commentPost = (value, id) => async(dispatch) => {
     try {

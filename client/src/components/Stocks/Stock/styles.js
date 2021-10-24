@@ -12,6 +12,20 @@ export default makeStyles({
   },
   fullHeightCard: {
     height: '100%',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    margin: '1rem 0',
+
+  },
+  halfCentered: {
+    width: '50%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    borderRadius: '15px',
+    position: 'relative',
+    marginBottom: '30px',
   },
   card: {
     display: 'flex',
@@ -19,6 +33,7 @@ export default makeStyles({
     justifyContent: 'space-between',
     borderRadius: '15px',
     position: 'relative',
+    marginBottom: '30px',
   },
   overlay: {
     position: 'absolute',
@@ -51,5 +66,11 @@ export default makeStyles({
   cardAction: {
     display: 'block',
     textAlign: 'initial',
+  },
+  appBarSearch: {
+    borderRadius: 4,
+    marginBottom: '1rem',
+    display: 'flex',
+    padding: '16px',
   },
 });

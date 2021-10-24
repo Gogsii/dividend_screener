@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Grow, Grid, Paper, AppBar, TextField, Button } from '@material-ui/core';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getPostsBySearch } from '../../actions/posts';
 import { useHistory, useLocation } from 'react-router-dom'; //location is to know which page we are on currently and history is for re-navigation
 import ChipInput from 'material-ui-chip-input'; //makes our tags pretty, especially when searching for multiple items
@@ -8,8 +8,12 @@ import ChipInput from 'material-ui-chip-input'; //makes our tags pretty, especia
 import Posts from '../Posts/Posts';
 import Form from '../Form/Form';
 import Pagination from '../Pagination/Pagination';
+import Stocks from '../Stocks/Stocks';
+import Stock from '../Stocks/Stock/Stock';
 
 import useStyles from './styles';
+import StockSearch from '../Stocks/Stock/StockSearch';
+
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -26,16 +30,12 @@ const Home = () => {
   
     const [search, setSearch] = useState(''); //setting an empty string as the default value for the search bar
     const [tags, setTags] = useState([]);  //setting it to an empty array to account for multiple tags
+    const { stocks } = useSelector((state) => state.stocks); //initialized as a hook
+
+
     const history = useHistory();
 
-    //a way to actually dispatch the action, similar to componentDidMount, componentDidUpdate and componentWillUpdate 
-    //we're telling react to run this “effect” function after flushing changes to the DOM.
-    //effects are ran after every render, including the first
-    // useEffect(() => {
-    //   dispatch( getPosts() ); //dispatching the action created and exported in '/actions.posts'
-    // }, [currentId, dispatch] );
-
-    //function for searching stocks by ticker and name
+    //function for searching POST by ticker and name
     const searchPost = () => {
         if (search.trim() || tags) {
             dispatch(getPostsBySearch({ search, tags: tags.join(',') }));
@@ -44,7 +44,7 @@ const Home = () => {
             history.push('/'); //redirects to base, nothing was searched
         }
     };
-    //runs function for searching stocks by ticker and name upon pressing of Enter key
+    //runs function for searching POST by ticker and name upon pressing of Enter key
     const handleKeyPress = (e) => {
         if(e.keyCode === 13) { //key code 13 means the Enter key on a keyboard
             //search for post
@@ -53,10 +53,10 @@ const Home = () => {
     }
 
     const handleAddTag = (tag) => setTags([ ...tags, tag]);
-
     const handleDeleteTag = (tagToDelete) => setTags(tags.filter( (tag) => tag !== tagToDelete ));
 
     return (
+        
     <Grow in>
         <Container maxWidth='xl'>
             <Grid 
@@ -67,9 +67,13 @@ const Home = () => {
                 className={classes.gridContainer} 
             >
             <Grid item xs={12} sm={6} md={9}>
-                <Posts setCurrentId={setCurrentId}/>
+                {/* <Posts setCurrentId={setCurrentId}/> */}
+                    <Stocks />
+                {/* <Stock /> */}
             </Grid>
-            <Grid item xs={12} sm={6} md={3}>
+
+            {/* THIS IS FOR THE SEARCH POSTS BY NAME AND TICKER ORIGINAL FUNCTIONALITY ---------
+                <Grid item xs={12} sm={6} md={3}>
                 <AppBar className={classes.appBarSearch} position='static' color='inherit' > 
                     <TextField 
                         name='search' 
@@ -89,14 +93,18 @@ const Home = () => {
                         variant='outlined'
                     />
                     <Button onClick={searchPost} className={classes.searchButton} variant='contained' color='primary'>Search</Button>
-                </AppBar>
-                <Form currentId={currentId} setCurrentId={setCurrentId}/>
-                {( !searchQuery && !tags.length ) && (
-                <Paper className={classes.pagination} elevation={6}>
-                    <Pagination page={page}/>
-                </Paper>
-                )}
-            </Grid>    
+                </AppBar> 
+            */}
+
+                {/* THIS IS THE FORM TO SUBMIT AND EDIT POSTS WITH---------------------------
+                    <Form currentId={currentId} setCurrentId={setCurrentId}/>
+                        {( !searchQuery && !tags.length ) && (
+                        <Paper className={classes.pagination} elevation={6}>
+                            <Pagination page={page}/>
+                        </Paper>
+                        )} 
+                </Grid>
+                */}
             </Grid>
         </Container>
     </Grow>

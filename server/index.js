@@ -15,7 +15,7 @@ app.use(express.urlencoded( { limit: "100mb", extended: true } ) ); //could tech
 app.use(cors());
 
 app.use('/posts', postRoutes); //sets the permalink base to domain.com/posts/post
-app.use('/user', userRouter); 
+app.use('/user', userRouter);
 
 app.get('/', (req, res) => {
     res.send('Hello to Dividend Stocks API');
@@ -31,4 +31,4 @@ mongoose.connect(process.env.CONNECTION_URL, {useNewUrlParser: true, useUnifiedT
     .then(() => app.listen(PORT, () => console.log(`Server running on port: ${PORT}`)))
     .catch((error) => console.log( error.message));
  
-//mongoose.set('useFindAndModify', false); //this is old
+//mongoose.set('useFindAndModify', false); //this is outdated

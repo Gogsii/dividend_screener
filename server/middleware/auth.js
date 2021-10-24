@@ -18,7 +18,7 @@ const auth = async ( req, res, next ) => {
             req.userId = decodedData?.sub; //sub is googles name for specific user id that differentiates every google user
         }
 
-        next(); //allows us to pass the action onto a second thing, or something else once the above passes
+        next(); //allows us to pass the action onto a second thing, or continue onto something else once the above passes
     } catch (error) {
         console.log(error);
     }

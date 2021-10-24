@@ -27,3 +27,19 @@ export const comment = (value, id) => API.post(`/posts/${id}/commentPost`, { val
 
 export const signIn = (formData) => API.post('/user/signin', formData);
 export const signUp = (formData) => API.post('/user/signup', formData);
+
+/* SECOND API FOR PULLING IN EXTERNAL API STOCK DATA */
+
+// const APIv2 = axios.create({
+//     // method: 'GET',
+//     url: 'https://mboum-finance.p.rapidapi.com/qu/quote', 
+//     params: {symbol: ''},
+//     headers: {
+//         'x-rapidapi-host': 'mboum-finance.p.rapidapi.com',
+//         'x-rapidapi-key': 'cbe0339db0msh2daae506a51a3a4p1940e3jsn1ebae4488c25'
+//     }
+// });
+
+// export const fetchStockBySearch = (searchQuery) => APIv2.get({params: {symbol: searchQuery.search}}); //with this, we are sending all of the search info to the search endpoint
+
+
