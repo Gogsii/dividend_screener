@@ -17,7 +17,7 @@ const Stocks = () => {
 
   return (
     <Container maxWidth='xl'>
-        <Grid className={ classes.container } container alignItems="stretch" spacing={3}>
+        <Grid className={ classes.container } container alignItems="stretch">
           
           { isLoading ? <CircularProgress /> : (stocks.length === 0 ?
           <StockSearch />

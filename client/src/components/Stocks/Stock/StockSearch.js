@@ -38,7 +38,7 @@ const StockSearch = () => {
           history.push(`/stock/search?searchQuery=${search || 'none'}`); //changes the permalink
           
       } else {
-          history.push('/'); //redirects to base, nothing was searched
+          history.push('/stock/search'); //redirects to base, nothing was searched
       }
   };
   return (

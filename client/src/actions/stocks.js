@@ -1,5 +1,6 @@
 import { FETCH_STOCK_BY_SEARCH, START_LOADING, END_LOADING } from '../constants/actionTypes';
 import axios from 'axios';
+import dotenv from 'dotenv'
 
 /*--------------------------------------------------------------------------------------------------------*/
 /*--------------------------------------------------------------------------------------------------------*/

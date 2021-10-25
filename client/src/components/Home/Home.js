@@ -59,6 +59,7 @@ const Home = () => {
         
     <Grow in>
         <Container maxWidth='xl'>
+            <Stocks />
             <Grid 
                 container 
                 justify='space-between' 
@@ -68,8 +69,6 @@ const Home = () => {
             >
             <Grid item xs={12} sm={6} md={9}>
                 {/* <Posts setCurrentId={setCurrentId}/> */}
-                    <Stocks />
-                {/* <Stock /> */}
             </Grid>
 
             {/* THIS IS FOR THE SEARCH POSTS BY NAME AND TICKER ORIGINAL FUNCTIONALITY ---------

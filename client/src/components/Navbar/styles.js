@@ -9,16 +9,23 @@ export default makeStyles((theme) => ({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '10px 50px',
+    padding: '10px 30px',
+    backgroundColor: '#648caf',
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
     },
   },
   heading: {
-    color: theme.palette.primary.main,
+    // color: theme.palette.primary.main,
+    color: 'white',
     textDecoration: 'none',
     fontSize: '2em',
-    fontWeight: 300,
+    fontWeight: 800,
+  },
+  brandContainer: {
+    display: 'flex',
+    alignItems: 'center',
+    textDecoration: 'none',
   },
   image: {
     marginLeft: '10px',
@@ -50,10 +57,6 @@ export default makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     textAlign: 'center',
-  },
-  brandContainer: {
-    display: 'flex',
-    alignItems: 'center',
   },
   purple: {
     color: theme.palette.getContrastText(deepPurple[500]),
