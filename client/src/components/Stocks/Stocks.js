@@ -16,9 +16,7 @@ const Stocks = () => {
   // if (!isLoading) return ''; //Maybe I can put in a news feed by default in here DELETE later if not needed
 
   return (
-    <Container maxWidth='xl'>
-        <Grid className={ classes.container } container alignItems="stretch">
-          
+    <Container>
           { isLoading ? <CircularProgress /> : (stocks.length === 0 ?
           <StockSearch />
           :
@@ -27,7 +25,6 @@ const Stocks = () => {
           <StockSearch />
           </>
           )}
-        </Grid>
     </Container>
     )
 }

@@ -29,7 +29,7 @@ const StockSearch = () => {
   }
 
   //function for searching stocks by ticker and name
-  const searchStock = () => {
+  const searchStock = (e) => {
       if (search.trim()) {
           search.toUpperCase();
 
@@ -38,11 +38,11 @@ const StockSearch = () => {
           history.push(`/stock/search?searchQuery=${search || 'none'}`); //changes the permalink
           
       } else {
-          history.push('/stock/search'); //redirects to base, nothing was searched
+          e.preventDefault(); 
+          history.push('/'); //redirects to base, nothing was searched
       }
   };
   return (
-    <Grow in>
       <AppBar className={classes.appBarSearch} position='static' color='inherit' > 
         {/* <TextField 
             name='search' 
@@ -60,14 +60,13 @@ const StockSearch = () => {
             name='search' 
             value={search}
             style={{margin: '15px 0'}}
-            label= 'Search stock tickers'
+            label= 'Search for a new stock ticker'
             variant='outlined'
             onKeyDown={handleKeyPress}
             onChange={ (e) => setSearch(e.target.value.toLocaleUpperCase()) } //allows user to change value of the search
         />
         <Button className={classes.searchButton} onClick={searchStock} variant='contained' color='primary'>Search</Button>
     </AppBar>
-    </Grow>
   )
 }
 

@@ -59,7 +59,6 @@ const Home = () => {
         
     <Grow in>
         <Container maxWidth='xl'>
-            <Stocks />
             <Grid 
                 container 
                 justify='space-between' 
@@ -68,16 +67,15 @@ const Home = () => {
                 className={classes.gridContainer} 
             >
             <Grid item xs={12} sm={6} md={9}>
-                {/* <Posts setCurrentId={setCurrentId}/> */}
+                <Posts setCurrentId={setCurrentId}/>
             </Grid>
-
-            {/* THIS IS FOR THE SEARCH POSTS BY NAME AND TICKER ORIGINAL FUNCTIONALITY ---------
                 <Grid item xs={12} sm={6} md={3}>
+                <StockSearch/>
                 <AppBar className={classes.appBarSearch} position='static' color='inherit' > 
                     <TextField 
                         name='search' 
                         variant='outlined' 
-                        label='Search for a stock'
+                        label='Search your saved stocks by name'
                         onKeyDown={handleKeyPress}
                         fullWidth
                         value={search}
@@ -88,22 +86,20 @@ const Home = () => {
                         value={tags}
                         onAdd={handleAddTag}
                         onDelete={handleDeleteTag}
-                        label= 'Search stock tickers'
+                        label= 'Search your saved stocks by ticker'
                         variant='outlined'
                     />
                     <Button onClick={searchPost} className={classes.searchButton} variant='contained' color='primary'>Search</Button>
                 </AppBar> 
-            */}
-
-                {/* THIS IS THE FORM TO SUBMIT AND EDIT POSTS WITH---------------------------
+    
                     <Form currentId={currentId} setCurrentId={setCurrentId}/>
                         {( !searchQuery && !tags.length ) && (
                         <Paper className={classes.pagination} elevation={6}>
                             <Pagination page={page}/>
                         </Paper>
-                        )} 
+                        )}
+
                 </Grid>
-                */}
             </Grid>
         </Container>
     </Grow>
